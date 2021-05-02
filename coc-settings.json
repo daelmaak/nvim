@@ -1,0 +1,25 @@
+{
+  // Require .prettierrc
+  "prettier.requireConfig": true,
+
+  // Tslint on save
+  "tslint.enable": true,
+  "tslint.autoFixOnSave": true,
+
+  // Run prettier (and others)
+  "coc.preferences.formatOnSaveFiletypes": [
+    "css",
+	"scss",
+    "html",
+    "markdown",
+    "Markdown",
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+	"vue"
+  ],
+  "coc.preferences.currentFunctionSymbolAutoUpdate": true,
+  "diagnostic.errorSign": "❌",
+  "diagnostic.warningSign": "⚠️"
+}
