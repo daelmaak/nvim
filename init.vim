@@ -11,9 +11,12 @@ Plug 'itchyny/lightline.vim'
 Plug 'jremmen/vim-ripgrep'
 Plug 'stefandtw/quickfix-reflector.vim'
 Plug 'justinmk/vim-sneak'
+Plug 'qpkorr/vim-renamer'
 
 " Initialize plugin system
 call plug#end()
+
+let mapleader = ','
 
 " Filename at the bottom
 set laststatus=2
@@ -177,6 +180,9 @@ nnoremap confe :e $MYVIMRC<CR>
 " Reload vims configuration file
 nnoremap confr :source $MYVIMRC<CR>
 
+" Rename in the current file's parent folder
+nnoremap <leader>r :execute "Ren " . expand('%:p:h')<CR>
+
 " use <tab> for trigger completion and navigate to the next complete item
 function! s:check_back_space() abort
   let col = col('.') - 1
@@ -201,6 +207,9 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
+
+" Clearing search highlight
+nnoremap <silent> <esc> :noh<cr><esc>
 
 let g:lightline = {
 	  \ 'colorscheme': 'wombat',
