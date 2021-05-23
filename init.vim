@@ -16,6 +16,14 @@ Plug 'qpkorr/vim-renamer'
 " Initialize plugin system
 call plug#end()
 
+" Install coc extensions
+let g:coc_global_extensions = [ 'coc-tsserver', 'coc-angular', 'coc-eslint', 'coc-prettier', 'coc-css', 'coc-vetur' ]
+
+" If on windows, always use cmd.exe even if nvim was opened in bash (like in Git Bash)
+if has('win32') || has('win64')
+    let &shell='cmd.exe'
+endif
+
 let mapleader = ','
 
 " Filename at the bottom
@@ -101,12 +109,9 @@ let g:edge_disable_italic_comment = 1
 " Trigger emmet when pressing leader key
 let g:user_emmet_leader_key=','
 
-" Install coc extensions
-let g:coc_global_extensions = [ 'coc-tsserver', 'coc-angular', 'coc-eslint', 'coc-prettier', 'coc-css', 'coc-vetur' ]
 " Error status line icon
 let g:coc_status_error_sign = '❌ '
 let g:coc_status_warning_sign = '⚠ '
-
 
 " Change cursor when in insert mode
 let &t_SI = "\e[6 q"
