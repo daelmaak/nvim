@@ -127,7 +127,7 @@ nmap <leader>p :Prettier<CR>
 nmap <leader>gg :vertical G<CR>
 
 " Set up support for scss
-autocmd FileType scss setl iskeyword+=@-@
+autocmd FileType scss setl iskeyword+=@-@,-
 
 " Organize imports
 command! -nargs=0 OI :CocCommand editor.action.organizeImport
