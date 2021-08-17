@@ -1,6 +1,7 @@
 call plug#begin(stdpath('data') . '/plugged')
 
-Plug 'sainnhe/edge'
+Plug 'rktjmp/lush.nvim'
+Plug 'npxbr/gruvbox.nvim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
@@ -25,6 +26,10 @@ if has('win32') || has('win64')
 endif
 
 let mapleader = ','
+
+" Theme
+set background=dark 
+colorscheme gruvbox
 
 " Filename at the bottom
 set laststatus=2
@@ -101,11 +106,6 @@ let g:rg_command = 'rg --vimgrep -S'
 " In :Explore if you'd like to have relative numbering instead, try >
 let g:netrw_bufsettings="noma nomod nonu nobl nowrap ro rnu"
 
-" Theme
-let g:edge_style = 'neon'
-let g:edge_transparent_background = 1
-let g:edge_disable_italic_comment = 1
-
 " Trigger emmet when pressing leader key
 let g:user_emmet_leader_key=','
 
@@ -116,8 +116,6 @@ let g:coc_status_warning_sign = '⚠ '
 " Change cursor when in insert mode
 let &t_SI = "\e[6 q"
 let &t_EI = "\e[2 q"
-
-colorscheme edge
 
 " Set up :Prettier command
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
@@ -182,6 +180,7 @@ function! s:show_documentation()
 endfunction
 
 nnoremap <C-p> :GFiles<CR>
+
 " Edit vimr configuration file
 nnoremap confe :e $MYVIMRC<CR>
 " Reload vims configuration file
@@ -214,6 +213,13 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
+
+" ********* macbook remaps ***********
+" <M- means command key
+" Cycle between last 2 buffers 
+nnoremap <M-z> <C-^>
+" Visual block mode
+nnoremap <M-b> <C-v>
 
 " Clearing search highlight
 nnoremap <silent> <esc> :noh<cr><esc>
