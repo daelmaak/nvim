@@ -1,0 +1,11 @@
+call plug#begin(stdpath('data') . '/plugged')
+Plug 'justinmk/vim-sneak'
+call plug#end()
+
+nmap <C-J> <C-W>j
+nmap <C-K> <C-W>k
+nmap <C-L> <C-W>l
+nmap <C-H> <C-W>h
+
+nnoremap ]g <Cmd>call VSCodeNotify('editor.action.marker.next')<CR>
+nnoremap [g <Cmd>call VSCodeNotify('editor.action.marker.prev')<CR>
