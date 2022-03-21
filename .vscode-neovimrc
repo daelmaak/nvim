@@ -17,3 +17,5 @@ nnoremap <leader>gd <Cmd>call VSCodeNotify('editor.action.revealDefinition')<CR>
 nnoremap <leader>gr <Cmd>call VSCodeNotify('editor.action.goToReferences')<CR>
 
 nnoremap <leader>re <Cmd>call VSCodeNotify('remote-wsl.revealInExplorer')<CR>
+
+nnoremap ,qf <Cmd>call VSCodeNotify('keyboard-quickfix.openQuickFix')<CR>
