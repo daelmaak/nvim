@@ -1,0 +1,23 @@
+set number
+set relativenumber
+
+let mapleader = ','
+
+nmap <C-J> <C-W>j
+nmap <C-K> <C-W>k
+nmap <C-L> <C-W>l
+nmap <C-H> <C-W>h
+
+nnoremap ]g :vsc View.NextError<CR>
+nnoremap [g :vsc View.NextError<CR>
+
+nnoremap <leader>qf :vsc EditorContextMenus.CodeWindow.QuickActionsForPosition<CR>
+nnoremap <leader>gd :vsc Edit.GoToDefinition<CR>
+nnoremap <leader>gr :vsc Edit.FindAllReferences<CR>
+nnoremap <leader>gi :vsc Edit.GoToImplementation<CR>
+
+nnoremap <leader>rn :vsc File.Rename<CR>
+nnoremap <leader>ff :vsc Edit.FormatDocument<CR>
+
+" nnoremap <leader>re <Cmd>call VSCodeNotify('revealInExplorer')<CR>
+nnoremap <S-K> :vsc Edit.QuickInfo<CR>
