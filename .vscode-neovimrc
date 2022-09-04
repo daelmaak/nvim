@@ -22,3 +22,25 @@ nnoremap <leader>rn <Cmd>call VSCodeNotify('editor.action.rename')<CR>
 nnoremap <leader>oi <Cmd>call VSCodeNotify('editor.action.organizeImports')<CR>
 
 nnoremap ,qf <Cmd>call VSCodeNotify('keyboard-quickfix.openQuickFix')<CR>
+
+" https://www.reddit.com/r/vim/comments/6945lw/i_windows_linux_and_mac_my_vimrc_is_littered_with/
+if !exists('g:os')
+    if has('win64') || has('win32') || has('win16')
+        let g:os = 'Windows'
+    else
+        let g:os = substitute(system('uname'), '\n', '', '')
+    endif
+endif
+
+" References:
+" [1] https://github.com/asvetliakov/vscode-neovim/issues/103
+" [2] https://github.com/Microsoft/WSL/issues/892
+if g:os == 'Linux' && (has('clipboard') || exists('g:vscode')) " [1]
+    let s:clip = '/mnt/c/Windows/System32/clip.exe'  " change this path according to your mount point [2]
+    if executable(s:clip)
+        augroup WSLYank
+            autocmd!
+            autocmd TextYankPost * if v:event.operator ==# 'y' | call system(s:clip, @0) | endif
+        augroup END
+    endif
+endif
