@@ -2,6 +2,16 @@ call plug#begin(stdpath('data') . '/plugged')
 Plug 'justinmk/vim-sneak'
 call plug#end()
 
+" https://www.reddit.com/r/vim/comments/6945lw/i_windows_linux_and_mac_my_vimrc_is_littered_with/
+if !exists('g:os')
+    if has('win64') || has('win32') || has('win16')
+        let g:os = 'Windows'
+    else
+        let g:os = substitute(system('uname'), '\n', '', '')
+    endif
+endif
+
+
 let mapleader = ','
 
 nmap <C-J> <C-W>j
@@ -20,18 +30,11 @@ nnoremap <leader>gr <Cmd>call VSCodeNotify('editor.action.goToReferences')<CR>
 nnoremap <leader>re <Cmd>call VSCodeNotify('revealInExplorer')<CR>
 nnoremap <leader>rn <Cmd>call VSCodeNotify('editor.action.rename')<CR>
 nnoremap <leader>oi <Cmd>call VSCodeNotify('editor.action.organizeImports')<CR>
+nnoremap <leader>gb <Cmd>call VSCodeNotify('gitlens.toggleFileBlame')<CR>
 
 nnoremap ,qf <Cmd>call VSCodeNotify('keyboard-quickfix.openQuickFix')<CR>
 
-" https://www.reddit.com/r/vim/comments/6945lw/i_windows_linux_and_mac_my_vimrc_is_littered_with/
-if !exists('g:os')
-    if has('win64') || has('win32') || has('win16')
-        let g:os = 'Windows'
-    else
-        let g:os = substitute(system('uname'), '\n', '', '')
-    endif
-endif
-
+" Support clipboard in WSL2
 " References:
 " [1] https://github.com/asvetliakov/vscode-neovim/issues/103
 " [2] https://github.com/Microsoft/WSL/issues/892
@@ -43,4 +46,22 @@ if g:os == 'Linux' && (has('clipboard') || exists('g:vscode')) " [1]
             autocmd TextYankPost * if v:event.operator ==# 'y' | call system(s:clip, @0) | endif
         augroup END
     endif
+endif
+
+" Correct scrolling for MacOs
+if g:os == 'Darwin'
+    nnoremap <silent> <expr> <C-f> VSCodeExtensionCall('scroll', 'page', 'down')
+    xnoremap <silent> <expr> <C-f> VSCodeExtensionCall('scroll', 'page', 'down')
+    nnoremap <silent> <expr> <C-b> VSCodeExtensionCall('scroll', 'page', 'up')
+    xnoremap <silent> <expr> <C-b> VSCodeExtensionCall('scroll', 'page', 'up')
+
+    nnoremap <silent> <expr> <C-e> VSCodeExtensionNotify('scroll-line', 'down')
+    xnoremap <silent> <expr> <C-e> VSCodeExtensionNotify('scroll-line', 'down')
+    nnoremap <silent> <expr> <C-y> VSCodeExtensionNotify('scroll-line', 'up')
+    xnoremap <silent> <expr> <C-y> VSCodeExtensionNotify('scroll-line', 'up')
+
+    nnoremap <silent> <expr> <C-d> VSCodeExtensionCall('scroll', 'halfPage', 'down')
+    xnoremap <silent> <expr> <C-d> VSCodeExtensionCall('scroll', 'halfPage', 'down')
+    nnoremap <silent> <expr> <C-u> VSCodeExtensionCall('scroll', 'halfPage', 'up')
+    xnoremap <silent> <expr> <C-u> VSCodeExtensionCall('scroll', 'halfPage', 'up')
 endif
