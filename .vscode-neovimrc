@@ -25,6 +25,7 @@ nnoremap [g <Cmd>call VSCodeNotify('editor.action.marker.prev')<CR>
 nnoremap <leader>qf <Cmd>call VSCodeNotify('editor.action.quickFix')<CR>
 nnoremap <leader>gd <Cmd>call VSCodeNotify('editor.action.revealDefinition')<CR>
 nnoremap <leader>gr <Cmd>call VSCodeNotify('editor.action.goToReferences')<CR>
+nnoremap <leader>gi <Cmd>call VSCodeNotify('editor.action.goToImplementation')<CR>
 
 " nnoremap <leader>re <Cmd>call VSCodeNotify('remote-wsl.revealInExplorer')<CR>
 nnoremap <leader>re <Cmd>call VSCodeNotify('revealInExplorer')<CR>
