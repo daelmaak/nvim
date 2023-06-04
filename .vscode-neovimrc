@@ -19,8 +19,8 @@ nmap <C-K> <C-W>k
 nmap <C-L> <C-W>l
 nmap <C-H> <C-W>h
 
-nnoremap ]g <Cmd>call VSCodeNotify('editor.action.marker.next')<CR>
-nnoremap [g <Cmd>call VSCodeNotify('editor.action.marker.prev')<CR>
+nnoremap ]g <Cmd>call VSCodeNotify('go-to-next-error.next.warning')<CR>
+nnoremap [g <Cmd>call VSCodeNotify('go-to-next-error.prev.warning')<CR>
 
 nnoremap <leader>qf <Cmd>call VSCodeNotify('editor.action.quickFix')<CR>
 nnoremap <leader>gd <Cmd>call VSCodeNotify('editor.action.revealDefinition')<CR>
