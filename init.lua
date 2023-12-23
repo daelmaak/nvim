@@ -17,8 +17,10 @@ vim.g.mapleader = ','
 require("lazy").setup({
   'navarasu/onedark.nvim',
   { "neoclide/coc.nvim", branch = "release" },
-  { "junegunn/fzf", run = function() vim.fn['fzf#install']() end },
-  "junegunn/fzf.vim",
+  {
+    'nvim-telescope/telescope.nvim', tag = '0.1.5',
+    dependencies = { 'nvim-lua/plenary.nvim' }
+  },
   "tpope/vim-fugitive",
   "tpope/vim-sleuth",
   "tpope/vim-unimpaired",
@@ -109,24 +111,31 @@ require("nvim-tree").setup({
   view = {
     number = true,
     relativenumber = true,
+  },
+  update_focused_file = {
+    enable = true,
   }
 })
 
 -- Disable automatic comment insert configuration file
-vim.api.nvim_set_keymap('n', '<leader>confe', ':e $MYVIMRC<CR>', { noremap = true })
+vim.keymap.set('n', '<leader>confe', ':e $MYVIMRC<CR>', { noremap = true })
 -- Reload vim's configuration file
-vim.api.nvim_set_keymap('n', '<leader>confr', ':source $MYVIMRC<CR>', { noremap = true })
+vim.keymap.set('n', '<leader>confr', ':source $MYVIMRC<CR>', { noremap = true })
 
 -- Rename in the current file's parent folder
-vim.api.nvim_set_keymap('n', '<leader>r', ':execute "Ren " . expand(\'%:p:h\')<CR>', { noremap = true })
+vim.keymap.set('n', '<leader>r', ':execute "Ren " . expand(\'%:p:h\')<CR>', { noremap = true })
+
+-- Search files
+local builtin = require('telescope.builtin')
+vim.keymap.set('n', '<leader>ff', builtin.git_files, {})
 
 -- Use <Tab> to confirm autocomplete selection with characters ahead and navigate
 -- NOTE: There's always a complete item selected by default, you may want to enable
 -- no select by `"suggest.noselect": true` in your configuration file
 -- NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 -- other plugins before putting this into your config
-vim.api.nvim_set_keymap('i', '<Tab>', 'pumvisible() ? coc#pum#confirm() : v:lua.check_back_space() ? "<Tab>" : coc#refresh()', { expr = true })
-vim.api.nvim_set_keymap('i', '<S-Tab>', 'pumvisible() ? coc#pum#prev(1) : "<C-h>"', { expr = true })
+vim.keymap.set('i', '<Tab>', 'pumvisible() ? coc#pum#confirm() : v:lua.check_back_space() ? "<Tab>" : coc#refresh()', { expr = true })
+vim.keymap.set('i', '<S-Tab>', 'pumvisible() ? coc#pum#prev(1) : "<C-h>"', { expr = true })
 
 -- Function to check backspace
 function _G.check_back_space()
@@ -136,22 +145,22 @@ end
 
 -- Make <CR> to accept selected completion item or notify coc.nvim to format
 -- <C-g>u breaks current undo, please make your own choice.
-vim.api.nvim_set_keymap('i', '<CR>', 'pumvisible() ? coc#pum#confirm() : "<C-g>u<CR><C-r>=coc#on_enter()<CR>"', { expr = true })
+vim.keymap.set('i', '<CR>', 'pumvisible() ? coc#pum#confirm() : "<C-g>u<CR><C-r>=coc#on_enter()<CR>"', { expr = true })
 
 -- Use <c-space> to trigger completion.
 if vim.fn.has('nvim') then
-  vim.api.nvim_set_keymap('i', '<c-space>', 'coc#refresh()', { silent = true, expr = true })
+  vim.keymap.set('i', '<c-space>', 'coc#refresh()', { silent = true, expr = true })
 else
-  vim.api.nvim_set_keymap('i', '<c-@>', 'coc#refresh()', { silent = true, expr = true })
+  vim.keymap.set('i', '<c-@>', 'coc#refresh()', { silent = true, expr = true })
 end
 
 -- Split navigation
-vim.api.nvim_set_keymap('n', '<C-J>', '<C-W><C-J>', { noremap = true })
-vim.api.nvim_set_keymap('n', '<C-K>', '<C-W><C-K>', { noremap = true })
-vim.api.nvim_set_keymap('n', '<C-L>', '<C-W><C-L>', { noremap = true })
-vim.api.nvim_set_keymap('n', '<C-H>', '<C-W><C-H>', { noremap = true })
+vim.keymap.set('n', '<C-J>', '<C-W><C-J>', { noremap = true })
+vim.keymap.set('n', '<C-K>', '<C-W><C-K>', { noremap = true })
+vim.keymap.set('n', '<C-L>', '<C-W><C-L>', { noremap = true })
+vim.keymap.set('n', '<C-H>', '<C-W><C-H>', { noremap = true })
 
 -- MacBook remaps
 -- <M- means the command key
 -- Cycle between last 2 buffers
-vim.api.nvim_set_keymap('n', '<M-z>', '<C-^>', { noremap = true })
+vim.keymap.set('n', '<M-z>', '<C-^>', { noremap = true })
