@@ -117,25 +117,41 @@ require("nvim-tree").setup({
   }
 })
 
+local keyset = vim.keymap.set
+
 -- Disable automatic comment insert configuration file
-vim.keymap.set('n', '<leader>confe', ':e $MYVIMRC<CR>', { noremap = true })
+keyset('n', '<leader>confe', ':e $MYVIMRC<CR>', { noremap = true })
 -- Reload vim's configuration file
-vim.keymap.set('n', '<leader>confr', ':source $MYVIMRC<CR>', { noremap = true })
+keyset('n', '<leader>confr', ':source $MYVIMRC<CR>', { noremap = true })
+
+keyset('n', '<leader>to', ':NvimTreeOpen<CR>', {})
+keyset('n', '<leader>tc', ':NvimTreeClose<CR>', {})
 
 -- Rename in the current file's parent folder
-vim.keymap.set('n', '<leader>r', ':execute "Ren " . expand(\'%:p:h\')<CR>', { noremap = true })
+keyset('n', '<leader>r', ':execute "Ren " . expand(\'%:p:h\')<CR>', { noremap = true })
 
 -- Search files
 local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>ff', builtin.git_files, {})
+keyset('n', '<leader>ff', builtin.git_files, {})
+
+-- Use `[g` and `]g` to navigate diagnostics
+-- Use `:CocDiagnostics` to get all diagnostics of current buffer in location list
+keyset("n", "[g", "<Plug>(coc-diagnostic-prev)", {silent = true})
+keyset("n", "]g", "<Plug>(coc-diagnostic-next)", {silent = true})
+
+-- GoTo code navigation
+keyset("n", "gd", "<Plug>(coc-definition)", {silent = true})
+keyset("n", "gy", "<Plug>(coc-type-definition)", {silent = true})
+keyset("n", "gi", "<Plug>(coc-implementation)", {silent = true})
+keyset("n", "gr", "<Plug>(coc-references)", {silent = true})
 
 -- Use <Tab> to confirm autocomplete selection with characters ahead and navigate
 -- NOTE: There's always a complete item selected by default, you may want to enable
 -- no select by `"suggest.noselect": true` in your configuration file
 -- NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 -- other plugins before putting this into your config
-vim.keymap.set('i', '<Tab>', 'pumvisible() ? coc#pum#confirm() : v:lua.check_back_space() ? "<Tab>" : coc#refresh()', { expr = true })
-vim.keymap.set('i', '<S-Tab>', 'pumvisible() ? coc#pum#prev(1) : "<C-h>"', { expr = true })
+keyset('i', '<Tab>', 'pumvisible() ? coc#pum#confirm() : v:lua.check_back_space() ? "<Tab>" : coc#refresh()', { expr = true })
+keyset('i', '<S-Tab>', 'pumvisible() ? coc#pum#prev(1) : "<C-h>"', { expr = true })
 
 -- Function to check backspace
 function _G.check_back_space()
@@ -145,22 +161,25 @@ end
 
 -- Make <CR> to accept selected completion item or notify coc.nvim to format
 -- <C-g>u breaks current undo, please make your own choice.
-vim.keymap.set('i', '<CR>', 'pumvisible() ? coc#pum#confirm() : "<C-g>u<CR><C-r>=coc#on_enter()<CR>"', { expr = true })
+keyset('i', '<CR>', 'pumvisible() ? coc#pum#confirm() : "<C-g>u<CR><C-r>=coc#on_enter()<CR>"', { expr = true })
 
 -- Use <c-space> to trigger completion.
 if vim.fn.has('nvim') then
-  vim.keymap.set('i', '<c-space>', 'coc#refresh()', { silent = true, expr = true })
+  keyset('i', '<c-space>', 'coc#refresh()', { silent = true, expr = true })
 else
-  vim.keymap.set('i', '<c-@>', 'coc#refresh()', { silent = true, expr = true })
+  keyset('i', '<c-@>', 'coc#refresh()', { silent = true, expr = true })
 end
 
 -- Split navigation
-vim.keymap.set('n', '<C-J>', '<C-W><C-J>', { noremap = true })
-vim.keymap.set('n', '<C-K>', '<C-W><C-K>', { noremap = true })
-vim.keymap.set('n', '<C-L>', '<C-W><C-L>', { noremap = true })
-vim.keymap.set('n', '<C-H>', '<C-W><C-H>', { noremap = true })
+keyset('n', '<C-J>', '<C-W><C-J>', { noremap = true })
+keyset('n', '<C-K>', '<C-W><C-K>', { noremap = true })
+keyset('n', '<C-L>', '<C-W><C-L>', { noremap = true })
+keyset('n', '<C-H>', '<C-W><C-H>', { noremap = true })
 
 -- MacBook remaps
 -- <M- means the command key
 -- Cycle between last 2 buffers
-vim.keymap.set('n', '<M-z>', '<C-^>', { noremap = true })
+keyset('n', '<M-z>', '<C-^>', { noremap = true })
+
+-- Organize imports command
+vim.api.nvim_create_user_command("OI", "call CocActionAsync('runCommand', 'editor.action.organizeImport')", {})
