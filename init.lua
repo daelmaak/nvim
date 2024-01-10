@@ -35,9 +35,9 @@ require("lazy").setup({
 })
 
 -- If on Windows, always use cmd.exe even if nvim was opened in bash (like in Git Bash)
-if vim.fn.has('win32') or vim.fn.has('win64') then
-  vim.o.shell = 'cmd.exe'
-end
+-- if vim.fn.has('win32') or vim.fn.has('win64') then
+--   vim.o.shell = 'cmd.exe'
+-- end
 
 -- Theme
 require('onedark').setup {
@@ -117,6 +117,8 @@ require("nvim-tree").setup({
   }
 })
 
+vim.keymap.del('n', '<Plug>Sneak_,')
+
 local keyset = vim.keymap.set
 
 -- Disable automatic comment insert configuration file
@@ -145,6 +147,12 @@ keyset("n", "gy", "<Plug>(coc-type-definition)", {silent = true})
 keyset("n", "gi", "<Plug>(coc-implementation)", {silent = true})
 keyset("n", "gr", "<Plug>(coc-references)", {silent = true})
 
+-- Apply the most preferred quickfix action on the current line.
+keyset("n", "<leader>qf", "<Plug>(coc-fix-current)", {silent = true, nowait = true})
+
+-- Symbol renaming
+keyset("n", "<leader>rn", "<Plug>(coc-rename)", {silent = true})
+
 -- Use <Tab> to confirm autocomplete selection with characters ahead and navigate
 -- NOTE: There's always a complete item selected by default, you may want to enable
 -- no select by `"suggest.noselect": true` in your configuration file
@@ -159,9 +167,26 @@ function _G.check_back_space()
     return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') ~= nil
 end
 
+-- Use K to show documentation in preview window
+function _G.show_docs()
+    local cw = vim.fn.expand('<cword>')
+    if vim.fn.index({'vim', 'help'}, vim.bo.filetype) >= 0 then
+        vim.api.nvim_command('h ' .. cw)
+    elseif vim.api.nvim_eval('coc#rpc#ready()') then
+        vim.fn.CocActionAsync('doHover')
+    else
+        vim.api.nvim_command('!' .. vim.o.keywordprg .. ' ' .. cw)
+    end
+end
+
+keyset("n", "K", '<CMD>lua _G.show_docs()<CR>', {silent = true})
+
 -- Make <CR> to accept selected completion item or notify coc.nvim to format
 -- <C-g>u breaks current undo, please make your own choice.
 keyset('i', '<CR>', 'pumvisible() ? coc#pum#confirm() : "<C-g>u<CR><C-r>=coc#on_enter()<CR>"', { expr = true })
+
+-- Add `:Format` command to format current buffer
+vim.api.nvim_create_user_command("Format", "call CocAction('format')", {})
 
 -- Use <c-space> to trigger completion.
 if vim.fn.has('nvim') then

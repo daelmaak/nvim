@@ -9,7 +9,7 @@
   // Run prettier (and others)
   "coc.preferences.formatOnSaveFiletypes": [
     "css",
-	"scss",
+    "scss",
     "html",
     "markdown",
     "Markdown",
@@ -17,7 +17,7 @@
     "javascriptreact",
     "typescript",
     "typescriptreact",
-	"vue"
+    "vue"
   ],
   "coc.preferences.currentFunctionSymbolAutoUpdate": true,
   "diagnostic.errorSign": ">>",
