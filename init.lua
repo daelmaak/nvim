@@ -32,12 +32,16 @@ require("lazy").setup({
   "qpkorr/vim-renamer",
   "nvim-tree/nvim-web-devicons",
   "nvim-tree/nvim-tree.lua",
+  -- Package manager for things like LSPs
+  "williamboman/mason.nvim",
 })
 
 -- If on Windows, always use cmd.exe even if nvim was opened in bash (like in Git Bash)
 -- if vim.fn.has('win32') or vim.fn.has('win64') then
 --   vim.o.shell = 'cmd.exe'
 -- end
+
+require("mason").setup()
 
 -- Theme
 require('onedark').setup {
