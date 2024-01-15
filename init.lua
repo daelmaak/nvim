@@ -14,6 +14,10 @@ vim.opt.rtp:prepend(lazypath)
 -- Set leader key
 vim.g.mapleader = ','
 
+-- disable netrw (Vim's file explorer)
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 require("lazy").setup({
   'navarasu/onedark.nvim',
   { "neoclide/coc.nvim", branch = "release" },
@@ -21,33 +25,75 @@ require("lazy").setup({
     'nvim-telescope/telescope.nvim', tag = '0.1.5',
     dependencies = { 'nvim-lua/plenary.nvim' }
   },
-  "tpope/vim-fugitive",
-  "tpope/vim-sleuth",
-  "tpope/vim-unimpaired",
-  "mattn/emmet-vim",
-  "itchyny/lightline.vim",
-  "jremmen/vim-ripgrep",
-  "stefandtw/quickfix-reflector.vim",
-  "justinmk/vim-sneak",
-  "qpkorr/vim-renamer",
-  "nvim-tree/nvim-web-devicons",
-  "nvim-tree/nvim-tree.lua",
-  -- Package manager for things like LSPs
-  "williamboman/mason.nvim",
+  'tpope/vim-fugitive',
+  'tpope/vim-sleuth',
+  'tpope/vim-unimpaired',
+  'mattn/emmet-vim',
+  'itchyny/lightline.vim',
+  'jremmen/vim-ripgrep',
+  'stefandtw/quickfix-reflector.vim',
+  'justinmk/vim-sneak',
+  'qpkorr/vim-renamer',
+  'nvim-tree/nvim-web-devicons',
+  'nvim-tree/nvim-tree.lua',
+  'neovim/nvim-lspconfig', 
+  { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
+  'github/copilot.vim',
+  'rmagatti/auto-session',
+  "Pocco81/auto-save.nvim",
 })
 
--- If on Windows, always use cmd.exe even if nvim was opened in bash (like in Git Bash)
--- if vim.fn.has('win32') or vim.fn.has('win64') then
---   vim.o.shell = 'cmd.exe'
--- end
+vim.g.coc_global_extensions = {'coc-json', '@yaegassy/coc-tailwindcss3'}
 
-require("mason").setup()
+require'auto-session'.setup {
+  log_level = "error",
+  auto_session_suppress_dirs = { "~/", "/"},
+}
+
+require'auto-save'.setup {}
 
 -- Theme
-require('onedark').setup {
+require'onedark'.setup {
     style = 'darker'
 }
-require('onedark').load()
+require'onedark'.load()
+
+require'nvim-treesitter.configs'.setup {
+  -- A list of parser names, or "all" (the five listed parsers should always be installed)
+  ensure_installed = { "c", "css", "lua", "vim", "vimdoc", "query", "tsx", "typescript" },
+  -- Install parsers synchronously (only applied to `ensure_installed`)
+  sync_install = false,
+  -- Automatically install missing parsers when entering buffer
+  -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
+  auto_install = true,
+  ---- If you need to change the installation directory of the parsers (see -> Advanced Setup)
+  -- parser_install_dir = "/some/path/to/store/parsers", -- Remember to run vim.opt.runtimepath:append("/some/path/to/store/parsers")!
+  highlight = {
+    enable = true,
+  }
+}
+
+require'nvim-tree'.setup {
+  actions = {
+    open_file = {
+      -- This window picker thing kept asking me in which split I'd like to open the file which was annoying, so I disabled it
+      window_picker = {
+        enable = false,
+      },
+    },
+  },
+  update_focused_file = {
+    enable = true,
+  },
+  view = {
+    number = true,
+    relativenumber = true,
+    width = 40,
+  },
+}
+
+-- The -i flag is to make zsh use aliases in :term or :!{cmd} which otherwise wouldn't be used
+vim.o.shell = '/usr/bin/zsh -i'
 
 -- Filename at the bottom
 vim.o.laststatus = 2
@@ -95,7 +141,7 @@ vim.o.softtabstop = 4
 vim.o.expandtab = true
 
 -- Center cursor vertically when, e.g., searching
-vim.o.scrolloff = 10
+vim.o.scrolloff = 5
 vim.o.number = true
 vim.o.relativenumber = true
 
@@ -104,22 +150,6 @@ vim.o.relativenumber = true
 
 -- https://vi.stackexchange.com/questions/2162/why-doesnt-the-backspace-key-work-in-insert-mode
 vim.o.backspace = 'indent,eol,start'
-
--- Initialize NvimTree
--- Disable netrw at the very start of your init.lua
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
-
--- Empty setup using defaults
-require("nvim-tree").setup({
-  view = {
-    number = true,
-    relativenumber = true,
-  },
-  update_focused_file = {
-    enable = true,
-  }
-})
 
 vim.keymap.del('n', '<Plug>Sneak_,')
 
@@ -132,6 +162,7 @@ keyset('n', '<leader>confr', ':source $MYVIMRC<CR>', { noremap = true })
 
 keyset('n', '<leader>to', ':NvimTreeOpen<CR>', {})
 keyset('n', '<leader>tc', ':NvimTreeClose<CR>', {})
+keyset('n', '<leader>tf', ':NvimTreeFocus<CR>', {})
 
 -- Rename in the current file's parent folder
 keyset('n', '<leader>r', ':execute "Ren " . expand(\'%:p:h\')<CR>', { noremap = true })
@@ -212,3 +243,4 @@ keyset('n', '<M-z>', '<C-^>', { noremap = true })
 
 -- Organize imports command
 vim.api.nvim_create_user_command("OI", "call CocActionAsync('runCommand', 'editor.action.organizeImport')", {})
+
