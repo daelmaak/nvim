@@ -18,6 +18,10 @@ vim.g.mapleader = ','
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
+vim.g.user_emmet_leader_key='<C-Z>'
+
+vim.g.coc_global_extensions = {'coc-json', '@yaegassy/coc-tailwindcss3'}
+
 require("lazy").setup({
   'navarasu/onedark.nvim',
   { "neoclide/coc.nvim", branch = "release" },
@@ -40,21 +44,18 @@ require("lazy").setup({
   { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
   'github/copilot.vim',
   'rmagatti/auto-session',
-  "Pocco81/auto-save.nvim",
+  'okuuva/auto-save.nvim',
 })
-
-vim.g.coc_global_extensions = {'coc-json', '@yaegassy/coc-tailwindcss3'}
 
 require'auto-session'.setup {
   log_level = "error",
   auto_session_suppress_dirs = { "~/", "/"},
 }
 
-require'auto-save'.setup {}
-
 -- Theme
 require'onedark'.setup {
-    style = 'darker'
+    style = 'darker',
+    term_colors = true,
 }
 require'onedark'.load()
 
@@ -164,6 +165,8 @@ keyset('n', '<leader>to', ':NvimTreeOpen<CR>', {})
 keyset('n', '<leader>tc', ':NvimTreeClose<CR>', {})
 keyset('n', '<leader>tf', ':NvimTreeFocus<CR>', {})
 
+keyset('n', '<leader>gg', ':vert G<CR>', {})
+
 -- Rename in the current file's parent folder
 keyset('n', '<leader>r', ':execute "Ren " . expand(\'%:p:h\')<CR>', { noremap = true })
 
@@ -178,9 +181,13 @@ keyset("n", "]g", "<Plug>(coc-diagnostic-next)", {silent = true})
 
 -- GoTo code navigation
 keyset("n", "gd", "<Plug>(coc-definition)", {silent = true})
+keyset("n", "gs", ":vsp<CR><Plug>(coc-definition)", {silent = true})
 keyset("n", "gy", "<Plug>(coc-type-definition)", {silent = true})
 keyset("n", "gi", "<Plug>(coc-implementation)", {silent = true})
 keyset("n", "gr", "<Plug>(coc-references)", {silent = true})
+--
+-- Organize imports command
+keyset('n', "<leader>oi", ":call CocActionAsync('organizeImport')<CR>", {silent = true})
 
 -- Apply the most preferred quickfix action on the current line.
 keyset("n", "<leader>qf", "<Plug>(coc-fix-current)", {silent = true, nowait = true})
@@ -195,6 +202,8 @@ keyset("n", "<leader>rn", "<Plug>(coc-rename)", {silent = true})
 -- other plugins before putting this into your config
 keyset('i', '<Tab>', 'pumvisible() ? coc#pum#confirm() : v:lua.check_back_space() ? "<Tab>" : coc#refresh()', { expr = true })
 keyset('i', '<S-Tab>', 'pumvisible() ? coc#pum#prev(1) : "<C-h>"', { expr = true })
+
+keyset('t', '<Esc>', '<C-\\><C-n>', { noremap = true })
 
 -- Function to check backspace
 function _G.check_back_space()
@@ -219,6 +228,7 @@ keyset("n", "K", '<CMD>lua _G.show_docs()<CR>', {silent = true})
 -- Make <CR> to accept selected completion item or notify coc.nvim to format
 -- <C-g>u breaks current undo, please make your own choice.
 keyset('i', '<CR>', 'pumvisible() ? coc#pum#confirm() : "<C-g>u<CR><C-r>=coc#on_enter()<CR>"', { expr = true })
+--
 
 -- Add `:Format` command to format current buffer
 vim.api.nvim_create_user_command("Format", "call CocAction('format')", {})
@@ -241,6 +251,4 @@ keyset('n', '<C-H>', '<C-W><C-H>', { noremap = true })
 -- Cycle between last 2 buffers
 keyset('n', '<M-z>', '<C-^>', { noremap = true })
 
--- Organize imports command
-vim.api.nvim_create_user_command("OI", "call CocActionAsync('runCommand', 'editor.action.organizeImport')", {})
 
