@@ -52,6 +52,8 @@ require'auto-session'.setup {
   auto_session_suppress_dirs = { "~/", "/"},
 }
 
+require'auto-save'.setup {}
+
 -- Theme
 require'onedark'.setup {
     style = 'darker',
