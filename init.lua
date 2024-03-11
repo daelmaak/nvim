@@ -22,6 +22,8 @@ vim.g.user_emmet_leader_key='<C-Z>'
 
 vim.g.coc_global_extensions = {'coc-json', '@yaegassy/coc-tailwindcss3'}
 
+vim.g.hlsearch = true
+
 require("lazy").setup({
   'navarasu/onedark.nvim',
   { "neoclide/coc.nvim", branch = "release" },
@@ -35,6 +37,7 @@ require("lazy").setup({
   'mattn/emmet-vim',
   'itchyny/lightline.vim',
   'jremmen/vim-ripgrep',
+  -- 'mhinz/vim-grepper',
   'stefandtw/quickfix-reflector.vim',
   'justinmk/vim-sneak',
   'qpkorr/vim-renamer',
@@ -45,6 +48,8 @@ require("lazy").setup({
   'github/copilot.vim',
   'rmagatti/auto-session',
   'okuuva/auto-save.nvim',
+  -- To remove hlsearch after search is done
+  'romainl/vim-cool',
 })
 
 require'auto-session'.setup {
@@ -92,7 +97,7 @@ require'nvim-tree'.setup {
   view = {
     number = true,
     relativenumber = true,
-    width = 40,
+    width = 50,
   },
 }
 
@@ -192,6 +197,7 @@ keyset("n", "gr", "<Plug>(coc-references)", {silent = true})
 -- Organize imports command
 keyset('n', "<leader>oi", ":call CocActionAsync('organizeImport')<CR>", {silent = true})
 
+keyset('n', '<leader>ca', '<Plug>(coc-codeaction-cursor)', {silent = true})
 -- Apply the most preferred quickfix action on the current line.
 keyset("n", "<leader>qf", "<Plug>(coc-fix-current)", {silent = true, nowait = true})
 
