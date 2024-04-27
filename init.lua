@@ -35,7 +35,6 @@ require("lazy").setup({
   'tpope/vim-sleuth',
   'tpope/vim-unimpaired',
   'mattn/emmet-vim',
-  'itchyny/lightline.vim',
   'jremmen/vim-ripgrep',
   -- 'mhinz/vim-grepper',
   'stefandtw/quickfix-reflector.vim',
@@ -50,6 +49,10 @@ require("lazy").setup({
   'okuuva/auto-save.nvim',
   -- To remove hlsearch after search is done
   'romainl/vim-cool',
+  {
+    'nvim-lualine/lualine.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' }
+  }
 })
 
 require'auto-session'.setup {
@@ -58,6 +61,8 @@ require'auto-session'.setup {
 }
 
 require'auto-save'.setup {}
+
+require'lualine'.setup {}
 
 -- Theme
 require'onedark'.setup {
@@ -87,7 +92,7 @@ require'nvim-tree'.setup {
     open_file = {
       -- This window picker thing kept asking me in which split I'd like to open the file which was annoying, so I disabled it
       window_picker = {
-        enable = false,
+        enable = true,
       },
     },
   },
@@ -184,25 +189,27 @@ keyset('n', '<leader>ff', builtin.git_files, {})
 
 -- Use `[g` and `]g` to navigate diagnostics
 -- Use `:CocDiagnostics` to get all diagnostics of current buffer in location list
-keyset("n", "[g", "<Plug>(coc-diagnostic-prev)", {silent = true})
-keyset("n", "]g", "<Plug>(coc-diagnostic-next)", {silent = true})
+keyset('n', "[g", "<Plug>(coc-diagnostic-prev)", {silent = true})
+keyset('n', "]g", "<Plug>(coc-diagnostic-next)", {silent = true})
 
 -- GoTo code navigation
-keyset("n", "gd", "<Plug>(coc-definition)", {silent = true})
-keyset("n", "gs", ":vsp<CR><Plug>(coc-definition)", {silent = true})
-keyset("n", "gy", "<Plug>(coc-type-definition)", {silent = true})
-keyset("n", "gi", "<Plug>(coc-implementation)", {silent = true})
-keyset("n", "gr", "<Plug>(coc-references)", {silent = true})
+keyset('n', "gd", "<Plug>(coc-definition)", {silent = true})
+keyset('n', "gs", ":vsp<CR><Plug>(coc-definition)", {silent = true})
+keyset('n', "gy", "<Plug>(coc-type-definition)", {silent = true})
+keyset('n', "gi", "<Plug>(coc-implementation)", {silent = true})
+keyset('n', "gr", "<Plug>(coc-references)", {silent = true})
 --
 -- Organize imports command
 keyset('n', "<leader>oi", ":call CocActionAsync('organizeImport')<CR>", {silent = true})
 
 keyset('n', '<leader>ca', '<Plug>(coc-codeaction-cursor)', {silent = true})
 -- Apply the most preferred quickfix action on the current line.
-keyset("n", "<leader>qf", "<Plug>(coc-fix-current)", {silent = true, nowait = true})
+keyset('n', "<leader>qf", "<Plug>(coc-fix-current)", {silent = true, nowait = true})
 
 -- Symbol renaming
-keyset("n", "<leader>rn", "<Plug>(coc-rename)", {silent = true})
+keyset('n', "<leader>rn", "<Plug>(coc-rename)", {silent = true})
+
+keyset('n', '<leader>cl', ':ccl<CR>', {silent = true})
 
 -- Use <Tab> to confirm autocomplete selection with characters ahead and navigate
 -- NOTE: There's always a complete item selected by default, you may want to enable
@@ -232,7 +239,7 @@ function _G.show_docs()
     end
 end
 
-keyset("n", "K", '<CMD>lua _G.show_docs()<CR>', {silent = true})
+keyset('n', "K", '<CMD>lua _G.show_docs()<CR>', {silent = true})
 
 -- Make <CR> to accept selected completion item or notify coc.nvim to format
 -- <C-g>u breaks current undo, please make your own choice.
