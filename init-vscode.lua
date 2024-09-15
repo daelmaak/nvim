@@ -20,10 +20,9 @@ end
 
 -- Set mapleader
 vim.g.mapleader = ','
+vim.o.cmdheight=4
 
 local keyset = vim.keymap.set
-
-cmdheight=0
 
 -- Key mappings
 keyset('n', '<C-j>', "<Cmd>call VSCodeNotify('workbench.action.navigateDown')<CR>", { noremap = true })
